@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express = require("express"),
     bodyParser = require("body-parser"),
     app = express(),
@@ -5,9 +7,6 @@ var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
     localStrategy = require("passport-local"),
-    seedDB = require("./seeds"),
-    Campground = require("./models/campgrounds"),
-    Comment = require("./models/comment"),
     User    = require("./models/user"),
     flash = require("connect-flash");
     
@@ -15,8 +14,10 @@ var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
     indexRoutes = require("./routes/index");
     
+console.log(process.env.DATABASEURL);
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 //mongoose.connect('mongodb://peter:27n1g2l1@ds243501.mlab.com:43501/skycamp',  { useNewUrlParser: true });
+//mongoose.connect('mongodb://localhost/skycamp',{ useNewUrlParser: true } )
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
