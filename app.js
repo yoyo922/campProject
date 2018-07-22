@@ -17,7 +17,7 @@ var commentRoutes = require("./routes/comments"),
 console.log(process.env.DATABASEURL);
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 //mongoose.connect('mongodb://peter:27n1g2l1@ds243501.mlab.com:43501/skycamp',  { useNewUrlParser: true });
-//mongoose.connect('mongodb://localhost/skycamp',{ useNewUrlParser: true } )
+//mongoose.connect('mongodb://localhost:27017/skyCamp',{ useNewUrlParser: true } )
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));

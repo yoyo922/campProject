@@ -47,7 +47,7 @@ router.post("/",middleware.isloggedIn,function(req,res){
         var lng = data[0].longitude;
         var location = data[0].formattedAddress;
         
-        var newCamp = {name:nametoAdd, image:imagetoAdd, description:descriptiontoAdd, author:author, price:price};
+        var newCamp = {name:nametoAdd, image:imagetoAdd, description:descriptiontoAdd, location:location, lng:lng, lat:lat,  author:author, price:price};
         Campground.create(newCamp, function(err,newCamp_DB){
             if(err){
                 console.log(err);
@@ -83,8 +83,10 @@ router.get("/:id/edit", middleware.checkCampOwner,function(req,res){
 //UPDATE route
 
 router.put("/:id",middleware.checkCampOwner,function(req,res){
-    geocoder.geocode(req.body.location, function (err, data) {
+    console.log(req.body.campground.location);
+    geocoder.geocode(req.body.campground.location, function (err, data) {
         if (err || !data.length) {
+          console.log("ERROR IS " + err);
           req.flash('error', 'Invalid address');
           return res.redirect('back');
         }
@@ -113,6 +115,26 @@ router.delete("/:id",middleware.checkCampOwner, function(req,res){
            res.redirect("/campgrounds");
        }
    });
+   /*router.delete("/:id", isLoggedIn, checkUserCampground, function(req, res) {
+    Comment.remove({
+      _id: {
+        $in: req.campground.comments
+      }
+    }, function(err) {
+      if(err) {
+          req.flash('error', err.message);
+          res.redirect('/');
+      } else {
+          req.campground.remove(function(err) {
+            if(err) {
+                req.flash('error', err.message);
+                return res.redirect('/');
+            }
+            req.flash('error', 'Campground deleted!');
+            res.redirect('/campgrounds');
+          });
+      }
+    })*/
 });
 
 module.exports = router;
